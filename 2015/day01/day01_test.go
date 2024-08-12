@@ -3,7 +3,6 @@ package day01
 import (
 	"bufio"
 	"bytes"
-	"log"
 	"testing"
 )
 
@@ -15,7 +14,7 @@ func TestProblem1WhenInputIsBalanced(t *testing.T) {
 	expect := 0
 
 	if actual != expect || err != nil {
-		log.Fatalf("Problem1() with %s input returned %d, instead of %d, with %v error", inputString, actual, expect, err)
+		t.Fatalf("Problem1() with %s input returned %d, instead of %d, with %v error", inputString, actual, expect, err)
 	}
 }
 
@@ -27,7 +26,7 @@ func TestProblem1WhenInputHasMoreOpeningParentheses(t *testing.T) {
 	expect := 3
 
 	if actual != expect || err != nil {
-		log.Fatalf("Problem1() with %s input returned %d, instead of %d, with %v error", inputString, actual, expect, err)
+		t.Fatalf("Problem1() with %s input returned %d, instead of %d, with %v error", inputString, actual, expect, err)
 	}
 }
 
@@ -39,7 +38,31 @@ func TestProblem1WhenInputHasMoreClosingParentheses(t *testing.T) {
 	expect := -3
 
 	if actual != expect || err != nil {
-		log.Fatalf("Problem1() with %s input returned %d, instead of %d, with %v error", inputString, actual, expect, err)
+		t.Fatalf("Problem1() with %s input returned %d, instead of %d, with %v error", inputString, actual, expect, err)
+	}
+}
+
+func TestProblem2WhenCountIsNegativeAtFirstPosition(t *testing.T) {
+	inputString := ")"
+	input := createBufferReaderFrom(inputString)
+
+	actual, err := Problem2(input)
+	expect := 1
+
+	if actual != expect || err != nil {
+		t.Fatalf("Problem2() with %s input returned %d, instead of %d, with %v error", inputString, actual, expect, err)
+	}
+}
+
+func TestProblem2WhenCountIsNegativeAtFifthPosition(t *testing.T) {
+	inputString := "()())"
+	input := createBufferReaderFrom(inputString)
+
+	actual, err := Problem2(input)
+	expect := 5
+
+	if actual != expect || err != nil {
+		t.Fatalf("Problem2() with %s input returned %d, instead of %d, with %v error", inputString, actual, expect, err)
 	}
 }
 
