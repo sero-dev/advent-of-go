@@ -1,14 +1,14 @@
 package day01
 
 import (
-	"bufio"
-	"bytes"
 	"testing"
+
+	"serodev.com/advent-of-go/util"
 )
 
 func TestProblem1WhenInputIsBalanced(t *testing.T) {
 	inputString := "(())"
-	input := createBufferReaderFrom(inputString)
+	input := util.CreateBufferReaderFrom(inputString)
 
 	actual, err := Problem1(input)
 	expect := 0
@@ -20,7 +20,7 @@ func TestProblem1WhenInputIsBalanced(t *testing.T) {
 
 func TestProblem1WhenInputHasMoreOpeningParentheses(t *testing.T) {
 	inputString := "))((((("
-	input := createBufferReaderFrom(inputString)
+	input := util.CreateBufferReaderFrom(inputString)
 
 	actual, err := Problem1(input)
 	expect := 3
@@ -32,7 +32,7 @@ func TestProblem1WhenInputHasMoreOpeningParentheses(t *testing.T) {
 
 func TestProblem1WhenInputHasMoreClosingParentheses(t *testing.T) {
 	inputString := ")())())"
-	input := createBufferReaderFrom(inputString)
+	input := util.CreateBufferReaderFrom(inputString)
 
 	actual, err := Problem1(input)
 	expect := -3
@@ -44,7 +44,7 @@ func TestProblem1WhenInputHasMoreClosingParentheses(t *testing.T) {
 
 func TestProblem2WhenCountIsNegativeAtFirstPosition(t *testing.T) {
 	inputString := ")"
-	input := createBufferReaderFrom(inputString)
+	input := util.CreateBufferReaderFrom(inputString)
 
 	actual, err := Problem2(input)
 	expect := 1
@@ -56,7 +56,7 @@ func TestProblem2WhenCountIsNegativeAtFirstPosition(t *testing.T) {
 
 func TestProblem2WhenCountIsNegativeAtFifthPosition(t *testing.T) {
 	inputString := "()())"
-	input := createBufferReaderFrom(inputString)
+	input := util.CreateBufferReaderFrom(inputString)
 
 	actual, err := Problem2(input)
 	expect := 5
@@ -64,11 +64,4 @@ func TestProblem2WhenCountIsNegativeAtFifthPosition(t *testing.T) {
 	if actual != expect || err != nil {
 		t.Fatalf("Problem2() with %s input returned %d, instead of %d, with %v error", inputString, actual, expect, err)
 	}
-}
-
-func createBufferReaderFrom(input string) *bufio.Reader {
-	var buffer bytes.Buffer
-	buffer.WriteString(input)
-
-	return bufio.NewReader(&buffer)
 }
