@@ -13,7 +13,7 @@ type benchmarkSummary struct {
 	average time.Duration
 }
 
-func RunBenchmark(subject func(), n uint) {
+func RunBenchmark(name string, subject func(), n uint) {
 	benchmarks := make([]time.Duration, n)
 
 	overallStartTime := time.Now()
@@ -30,11 +30,13 @@ func RunBenchmark(subject func(), n uint) {
 		log.Fatal(err)
 	}
 
+	fmt.Printf("Name: %s\n", name)
 	fmt.Printf("Number of runs: %d\n", n)
 	fmt.Printf("Overall time: %v\n", time.Since(overallStartTime))
 	fmt.Printf("Slowest run: %v\n", summary.slowest)
 	fmt.Printf("Fastest run: %v\n", summary.fastest)
 	fmt.Printf("Average run: %v\n", summary.average)
+	fmt.Println()
 }
 
 func getSummary(benchmarks []time.Duration) (benchmarkSummary, error) {
