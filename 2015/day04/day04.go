@@ -16,7 +16,7 @@ func Problem(secret string, prefix string) (uint, error) {
 		checksum := md5.Sum([]byte(secret + saltString))
 		hash := hex.EncodeToString(checksum[:])
 
-		if (strings.HasPrefix(hash, prefix)) {
+		if strings.HasPrefix(hash, prefix) {
 			break
 		}
 

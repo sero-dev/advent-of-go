@@ -27,7 +27,7 @@ func Problem1(bufferReader *bufio.Reader) (int, error) {
 
 		matches := dimensionPattern.FindStringSubmatch(line)
 
-		if (len(matches) != 4) {
+		if len(matches) != 4 {
 			return 0, errors.New("string " + line + " was not formatted correctly")
 		}
 
@@ -35,7 +35,7 @@ func Problem1(bufferReader *bufio.Reader) (int, error) {
 		width, _ := strconv.Atoi(matches[2])
 		height, _ := strconv.Atoi(matches[3])
 
-		smallestSide := min(length * width, width * height, height * length)
+		smallestSide := min(length*width, width*height, height*length)
 
 		totalArea += getSurfaceArea(length, width, height) + smallestSide
 	}
@@ -61,7 +61,7 @@ func Problem2(bufferReader *bufio.Reader) (int, error) {
 
 		matches := dimensionPattern.FindStringSubmatch(line)
 
-		if (len(matches) != 4) {
+		if len(matches) != 4 {
 			return 0, errors.New("string " + line + " was not formatted correctly")
 		}
 
@@ -69,14 +69,14 @@ func Problem2(bufferReader *bufio.Reader) (int, error) {
 		width, _ := strconv.Atoi(matches[2])
 		height, _ := strconv.Atoi(matches[3])
 
-		smallestSide := min(2 * (length + width), 2 * (width + height), 2 * (height + length))
+		smallestSide := min(2*(length+width), 2*(width+height), 2*(height+length))
 
-		totalRibbonNeeded += length * width * height + smallestSide
+		totalRibbonNeeded += length*width*height + smallestSide
 	}
 
 	return totalRibbonNeeded, nil
 }
 
 func getSurfaceArea(length int, width int, height int) int {
-	return 2 * length * width + 2 * width * height + 2 * height * length
-} 
+	return 2*length*width + 2*width*height + 2*height*length
+}

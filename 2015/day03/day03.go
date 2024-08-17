@@ -15,7 +15,7 @@ func Problem1(bufferReader *bufio.Reader) (int, error) {
 	x := 0
 	y := 0
 
-	coordinates := make(map[point] bool)
+	coordinates := make(map[point]bool)
 	coordinates[point{x: x, y: y}] = true
 
 	for {
@@ -53,7 +53,7 @@ func Problem2(bufferReader *bufio.Reader) (int, error) {
 	robotY := 0
 
 	isSantasTurn := true
-	coordinates := make(map[point] bool)
+	coordinates := make(map[point]bool)
 	coordinates[point{x: santaX, y: santaY}] = true
 
 	for {
@@ -92,8 +92,8 @@ func Problem2(bufferReader *bufio.Reader) (int, error) {
 				robotX--
 			}
 		}
- 
-		if (isSantasTurn) {
+
+		if isSantasTurn {
 			coordinates[point{x: santaX, y: santaY}] = true
 		} else {
 			coordinates[point{x: robotX, y: robotY}] = true
