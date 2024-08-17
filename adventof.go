@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	answer, err := day06.DemoProblem1()
+	answer, err := day06.DemoProblem2()
 
 	if err != nil {
 		log.Fatal(err)

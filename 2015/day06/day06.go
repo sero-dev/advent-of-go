@@ -3,13 +3,45 @@ package day06
 import (
 	"bufio"
 	"errors"
-	"fmt"
 	"io"
 	"regexp"
 	"strconv"
 )
 
-func Problem1(bufferReader *bufio.Reader) (int, error) {
+func Problem1(bufferReader *bufio.Reader) (uint, error) {
+	turnon := func(cell *uint) { *cell = 1 }
+	turnoff := func(cell *uint) { *cell = 0 }
+	toggle := func(cell *uint) {
+		if *cell == 1 {
+			*cell = 0
+		} else {
+			*cell = 1
+		}
+	}
+
+	return runInstructionSet(bufferReader, turnon, turnoff, toggle)
+}
+
+func Problem2(bufferReader *bufio.Reader) (uint, error) {
+	turnon := func(cell *uint) { *cell += 1 }
+	turnoff := func(cell *uint) {
+		if *cell > 0 {
+			*cell--
+		}
+	}
+	toggle := func(cell *uint) {
+		*cell += 2
+	}
+
+	return runInstructionSet(bufferReader, turnon, turnoff, toggle)
+}
+
+type point struct {
+	x int
+	y int
+}
+
+func runInstructionSet(bufferReader *bufio.Reader, turnon func(*uint), turnoff func(*uint), toggle func(*uint)) (uint, error) {
 	lightConfig := createLightConfiguration(1000, 1000)
 
 	for {
@@ -38,7 +70,7 @@ func Problem1(bufferReader *bufio.Reader) (int, error) {
 		destX, _ := strconv.Atoi(matches[4])
 		destY, _ := strconv.Atoi(matches[5])
 
-		actionFunction := func(*bool) {}
+		actionFunction := func(*uint) {}
 
 		switch action {
 		case "turn on":
@@ -50,37 +82,31 @@ func Problem1(bufferReader *bufio.Reader) (int, error) {
 		}
 
 		performInstruction(&lightConfig, actionFunction, sourceX, sourceY, destX, destY)
-		fmt.Printf("Lights that are on: %d\n", getLightsOnCount(lightConfig))
 	}
 
 	return getLightsOnCount(lightConfig), nil
 }
 
-type point struct {
-	x int
-	y int
-}
-
-func createLightConfiguration(length uint, width uint) [][]bool {
-	lightConfig := make([][]bool, length)
+func createLightConfiguration(length uint, width uint) [][]uint {
+	lightConfig := make([][]uint, length)
 
 	for i := range lightConfig {
-		lightConfig[i] = make([]bool, width)
+		lightConfig[i] = make([]uint, width)
 
 		for j := range lightConfig[i] {
-			lightConfig[i][j] = false
+			lightConfig[i][j] = 0
 		}
 	}
 
 	return lightConfig
 }
 
-func performInstruction(config *[][]bool, action func(*bool), sourceX int, sourceY int, destX int, destY int) {
+func performInstruction(config *[][]uint, instruction func(*uint), sourceX int, sourceY int, destX int, destY int) {
 	sourcePoint, destPoint := normalizeCoordinates(sourceX, sourceY, destX, destY)
 
 	for y := sourcePoint.y; y <= destPoint.y; y++ {
 		for x := sourcePoint.x; x <= destPoint.x; x++ {
-			action(&(*config)[y][x])
+			instruction(&(*config)[y][x])
 		}
 	}
 }
@@ -94,7 +120,7 @@ func normalizeCoordinates(sourceX int, sourceY int, destX int, destY int) (point
 		destPoint.x = sourceX
 	}
 
-	if sourceX > destY {
+	if sourceY > destY {
 		sourcePoint.y = destY
 		destPoint.y = sourceY
 	}
@@ -102,26 +128,12 @@ func normalizeCoordinates(sourceX int, sourceY int, destX int, destY int) (point
 	return sourcePoint, destPoint
 }
 
-func turnon(cell *bool) {
-	*cell = true
-}
-
-func turnoff(cell *bool) {
-	*cell = false
-}
-
-func toggle(cell *bool) {
-	*cell = !*cell
-}
-
-func getLightsOnCount(config [][]bool) int {
-	count := 0
+func getLightsOnCount(config [][]uint) uint {
+	var count uint = 0
 
 	for y := range config {
 		for x := range config[y] {
-			if config[y][x] {
-				count++
-			}
+			count += config[y][x]
 		}
 	}
 
